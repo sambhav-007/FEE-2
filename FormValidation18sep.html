@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<HTML>
+    <head>
+        <title>Form</title>
+        <link rel="stylesheet" href="form.css">
+    </head>
+    <body>
+        <form id="form">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <div id="error-name" class="error-message">Name is required</div>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <div id="error-email" class="error-message">Email is required</div>
+            </div>
+            <div>
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+                <div id="error-age" class="error-message">Age is required</div>
+            </div>
+            <div>
+                <label for="number">Phone Number:</label>
+                <input type="tel" id="number" name="number" required>
+                <div id="error-number" class="error-message">Phone Number is required</div>
+            </div>
+            <div>
+                <button type="submit" value="Submit">Submit</button>
+            </div>
+        </form>
+        <script>
+            const form = document.getElementById('form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const ageInput = document.getElementById('age');
+            const numberInput = document.getElementById('number');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            // Error message elements
+            const nameError = document.getElementById('error-name');
+            const emailError = document.getElementById('error-email');
+            const ageError = document.getElementById('error-age');
+            const numberError = document.getElementById('error-number');
+
+            // Validation functions
+            function validateName() {
+                const name = nameInput.value.trim();
+                if (name === '') {
+                    showError(nameError, 'Name is required');
+                    return false;
+                } else if (name.length < 2) {
+                    showError(nameError, 'Name must be at least 2 characters long');
+                    return false;
+                }
+                hideError(nameError);
+                return true;
+            }
+
+            function validateEmail() {
+                const email = emailInput.value.trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (email === '') {
+                    showError(emailError, 'Email is required');
+                    return false;
+                } else if (!emailRegex.test(email)) {
+                    showError(emailError, 'Please enter a valid email address');
+                    return false;
+                }
+                hideError(emailError);
+                return true;
+            }
+
+            function validateAge() {
+                const age = ageInput.value;
+                if (age === '') {
+                    showError(ageError, 'Age is required');
+                    return false;
+                } else if (isNaN(age) || age < 1 || age > 120) {
+                    showError(ageError, 'Please enter a valid age (1-120)');
+                    return false;
+                }
+                hideError(ageError);
+                return true;
+            }
+
+            function validatePhoneNumber() {
+                const number = numberInput.value.trim();
+                const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+
+                if (number === '') {
+                    showError(numberError, 'Phone number is required');
+                    return false;
+                } else if (!phoneRegex.test(number.replace(/[\s\-\(\)]/g, ''))) {
+                    showError(numberError, 'Please enter a valid phone number');
+                    return false;
+                }
+                hideError(numberError);
+                return true;
+            }
+
+            function showError(errorElement, message) {
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+            }
+
+            function hideError(errorElement) {
+                errorElement.classList.remove('show');
+            }
+
+            function validateForm() {
+                const isNameValid = validateName();
+                const isEmailValid = validateEmail();
+                const isAgeValid = validateAge();
+                const isPhoneValid = validatePhoneNumber();
+
+                return isNameValid && isEmailValid && isAgeValid && isPhoneValid;
+            }
+
+            function updateSubmitButton() {
+                const isNameValid = nameInput.value.trim().length >= 2;
+                const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+                const isAgeValid = ageInput.value && !isNaN(ageInput.value) && ageInput.value >= 1 && ageInput.value <= 120;
+                const isPhoneValid = numberInput.value.trim() && /^[\+]?[1-9][\d]{0,15}$/.test(numberInput.value.trim().replace(/[\s\-\(\)]/g, ''));
+
+                submitButton.disabled = !(isNameValid && isEmailValid && isAgeValid && isPhoneValid);
+            }
+
+            // Event listeners
+            nameInput.addEventListener('blur', validateName);
+            nameInput.addEventListener('input', () => {
+                if (nameError.classList.contains('show')) {
+                    validateName();
+                }
+                updateSubmitButton();
+            });
+
+            emailInput.addEventListener('blur', validateEmail);
+            emailInput.addEventListener('input', () => {
+                emailInput.setCustomValidity('');
+                if (emailError.classList.contains('show')) {
+                    validateEmail();
+                }
+                updateSubmitButton();
+            });
+
+            ageInput.addEventListener('blur', validateAge);
+            ageInput.addEventListener('input', () => {
+                if (ageError.classList.contains('show')) {
+                    validateAge();
+                }
+                updateSubmitButton();
+            });
+
+            numberInput.addEventListener('blur', validatePhoneNumber);
+            numberInput.addEventListener('input', () => {
+                numberInput.value = numberInput.value.trim();
+                if (numberError.classList.contains('show')) {
+                    validatePhoneNumber();
+                }
+                updateSubmitButton();
+            });
+
+            // Form submission
+            form.addEventListener('submit', (e) => {
+                if (!validateForm()) {
+                    e.preventDefault();
+                    alert('Please correct the errors before submitting the form.');
+                } else {
+                    alert('Form submitted successfully!');
+                    // Here you would typically send the data to a server
+                }
+            });
+
+            // Initialize submit button as disabled
+            submitButton.disabled = true;
+        </script>
+    </body>
+</HTML>
