@@ -1,0 +1,93 @@
+<HTML>
+    <HEAd>
+        <TITLE>My Webpage</TITLE>
+    </HEAd>
+    <BODy> 
+
+    </BODy>
+    <SCRIPT>
+        // function showAlert() {
+        //     alert("Hello, welcome to my webpage!");
+        // }
+        // window.onload = showAlert;
+        // console.log("Page loaded successfully.");
+
+        // let input= prompt("Please enter your age:");
+        // let age = parseInt(input);
+        // if(age>=18){
+        //     console.log("You are an adult.");
+        // } else {
+        //     console.log("You are a minor.");
+        // }
+
+        // console.log("=== PRODUCT OBJECT DEMO ===");
+        
+        // let product = {
+        //     id: 101,
+        //     name: "WIRELESS MOUSE",
+        //     price: 799,
+        //     instock: true
+        // };
+        
+        // console.log("Initial product object:");
+        // console.log(product);
+        
+        // console.log("Product Name:", product.name);
+        // console.log("Product Price:", product.price);
+        
+        // product.price = 749;
+        // console.log("Price updated to:", product.price);
+        
+        // product.discount = "10%";
+        // console.log("Discount added:", product.discount);
+        
+        // delete product.instock;
+        // console.log("instock property deleted");
+        
+        // console.log("=== FINAL PRODUCT DETAILS ===");
+        // console.log("NAME:", product.name);
+        // console.log("PRICE:", product.price);
+        // console.log("DISCOUNT:", product.discount);
+        
+        
+        // console.log("Complete final product object:");
+        // console.log(product);
+        // let numbers = [];
+        // let input = prompt("Enter 5 numbers separated by commas:");
+        // numbers = input.split(",").map(Number);
+        // let sum = 0;
+        // for (let i = 0; i < numbers.length; i++) {
+        //     sum += numbers[i];
+        // }
+        
+        // console.log(sum);
+        let students = {
+"101": { name: "Ravi", age: 21, marks: { math: 85, science: 90 } },
+"102": { name: "Anita", age: 20, marks: { math: 92, science: 88 } },
+"103": { name: "Suresh", age: 22, marks: { math: 76, science: 80 } }
+};
+
+for (let id in students) {
+    console.log(students[id].name);
+}
+
+let highestMaths = 0;
+for (let id in students) {
+    if (students[id].marks.math > highestMaths) {
+        highestMaths = students[id].marks.math;
+    }
+}
+console.log("Highest Maths Marks:", highestMaths);
+
+let totalScience = 0;
+let studentCount = 0;
+for (let id in students) {
+    totalScience += students[id].marks.science;
+    studentCount++;
+}
+let averageScience = totalScience / studentCount;
+console.log("Average Science Marks:", averageScience);
+
+
+    </SCRIPT>
+</HTML>
